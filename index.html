@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -337,12 +337,12 @@
     <div class="badge"><span class="dot"></span> Friendship Psychology Mini-Game</div>
     <h1>University Friendship Vibe Check</h1>
     <div class="bond-line"><span class="seg"></span><span class="heart">💞</span><span class="seg"></span></div>
-    <p>Explore hilarious campus friendship moments and test your friend telepathy — six tiny windows into the psychology of how best friends actually bond.</p>
+    <p>Explore friendship moments and test your friend telepathy — Five tiny windows into the psychology of how best friends actually bond.</p>
   </header>
 
 
   <div class="mode-tabs">
-    <button class="tab-btn active" onclick="switchMode('match')">😂 Mode 1 · Funny Uni Friend Spotter</button>
+    <button class="tab-btn active" onclick="switchMode('match')">😂 Mode 1 · Friend Spotter</button>
     <button class="tab-btn" onclick="switchMode('sync')">👯 Mode 2 · 2-Player Telepathy Test</button>
   </div>
 
@@ -362,7 +362,7 @@
 
     <div class="matching-grid">
       <div>
-        <div class="column-title"><span class="bubble">🤪</span> Column A · Funny Uni Friend Behavior</div>
+        <div class="column-title"><span class="bubble">🤪</span> Column A · Friend Behavior</div>
         <div class="card-list" id="scenario-list"></div>
       </div>
       <div>
@@ -414,41 +414,35 @@
   /* ================= DATA ================= */
   const pairsData = [
     { id: 1,
-      scenarioTitle: "1. The 2:00 AM 'I'm Changing My Life' Text",
-      scenarioText: "At 2 AM on Sunday, your friend announces they are waking up at 5 AM every day, cutting out all sugar, and finishing their essay 2 weeks early... then sleeps until 1 PM on Monday.",
-      vibeTitle: "The Midnight Over-Promiser",
-      vibeDesc: "100% convinced that huge life changes will be super easy and happen overnight.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> When we get a sudden burst of excitement, we often underestimate how tough habits are to change—having a friend to set small, realistic goals with keeps us grounded!" },
+      scenarioTitle: "1. The 'Only Texts Before Exam Week' Text",
+      scenarioText: "Your classmate doesn't talk to you for 8 weeks. The night before the exam, they suddenly ask you for Chapter notes, Right after that, they disappear again.",
+      vibeTitle: "The Utility-Only Friend",
+      vibeDesc: "Only shows up when they need help or a favor, not for a real bond.",
+      psychTakeaway: "✨ <strong>Why We Do This:</strong> A <strong>Utility Friendship</strong> is based only on mutual benefits (being useful to each other). It helps us pass classes, but it lacks the deep <strong>compassionate care</strong> we need for daily well-being!" },
     { id: 2,
-      scenarioTitle: "2. The 'At Least You Didn't...' Comforter",
-      scenarioText: "You are sad about getting a C+, so your friend immediately says: 'Hey, don't cry! My roommate slept through the exam, got a 0, AND dropped his phone in the toilet!'",
-      vibeTitle: "The 'Someone Has It Worse' Cheerleader",
-      vibeDesc: "Trying to boost your mood by comparing your bad day to an even bigger disaster.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> Comparing our struggles to someone having a much rougher time is a classic shortcut people use to feel better about themselves after a setback!" },
+      scenarioTitle: "2. The 'Here for Hotpot, Gone for Sadness' Pal",
+      scenarioText: "They are always ready to eat late-night desserts or watch funny shows with you. But when you try to talk about real-life stress or feeling sad, they won't even reply",
+      vibeTitle: "The Pleasure-Seeker Buddy",
+      vibeDesc: "Great at having fun together, but runs away from deep feelings.",
+      psychTakeaway: "✨ <strong>Why We Do This:</strong> A <strong>Pleasure Friendship</strong> is built on shared fun. Laughing together feels good in the moment, but moving up to a <strong>Virtuous Friendship</strong> means caring for each other during hard times too." },
     { id: 3,
-      scenarioTitle: "3. The Single Love Guru",
-      scenarioText: "This friend has been single since birth, yet gives you 10/10 genius advice on your crush—and then panics for 45 minutes over whether to text 'hey' or 'heyyy' to theirs.",
-      vibeTitle: "The 'Pro Coach, Panicked Player' Bestie",
-      vibeDesc: "A total genius at solving your drama, but completely lost when it happens to them.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> People naturally make much wiser decisions when solving a friend's problem than their own, because our own drama clouds our chill!" },
+      scenarioTitle: "3. The 3:00 AM 'Safe Space' Listener",
+      scenarioText: "You send a 8 minute voice message late at night because you are panicking about life. Within 1 minutes, they reply: 'I'm always with you, you are doing great, and we will fix this together tomorrow.",
+      vibeTitle: "The Virtuous Anchor",
+      vibeDesc: "Listens without judging and reminds you of your value when you feel down.",
+      psychTakeaway: "✨ <strong>Why We Do This:</strong> In the <em>Emotional & Psychological Layer</em>, a <strong>Virtuous Friendship</strong> (based on <strong>compassionate care</strong>) helps lower <strong>anxiety and depression</strong> while boosting your <strong>self-worth</strong>!" },
     { id: 4,
-      scenarioTitle: "4. The 'Wait, You're an A+ Student?!' Flex",
-      scenarioText: "Your friend did 0% of the studying, but the second you get the highest mark in class, they tell everyone: 'Yeah, that's my best friend, I basically raised them!'",
-      vibeTitle: "The 'Proud Trophy Bestie' Hype-Person",
-      vibeDesc: "Glowing with pride and flexing your big wins like they just won the championship too.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> Sharing the spotlight of a close friend's success is a real confidence booster—and celebrating each other's wins makes friendships way stronger!" },
+      scenarioTitle: "4. The 'Drink Water & Sleep Now' Friend",
+      scenarioText: "You tell your friend you only slept 3 hours and drank 3 cups of coffee today. They take your phone away, hand you a bottle of water, and make you take a 15-minute break'",
+      vibeTitle: "The Wellness Bodyguard",
+      vibeDesc: "Stops you from hurting your own health when you are busy and stressed.",
+      psychTakeaway: "✨ <strong>Why We Do This:</strong> In the <em>Social & Behavioral Layer</em>, good friends give us <strong>positive peer influences</strong>. They encourage a <strong>healthy lifestyle</strong> and stop us from falling into <strong>self-destructive behaviors</strong>." },
     { id: 5,
-      scenarioTitle: "5. The Boba Peace Treaty",
-      scenarioText: "Your group project chat is 3 seconds away from World War III, and this friend suddenly drops a ridiculous cat sticker and asks: 'So... who wants bubble tea on me?'",
-      vibeTitle: "The 'Emergency Snack & Meme' Peacekeeper",
-      vibeDesc: "Throwing in a silly joke or snack offer to cool everyone down before a fight explodes.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> Using humor or a small peace offering to lower the temperature during an argument is one of the #1 secrets that keeps long-term friendships from breaking apart!" },
-    { id: 6,
-      scenarioTitle: "6. The 'Everything Is Fine' Face Glitch",
-      scenarioText: "Your friend claims they are '100% fine' with their 8:30 AM group presentation, but their fake polite smile freezes and their left eye twitches for 0.2 seconds.",
-      vibeTitle: "The 'Polite Smile, Screaming Inside' Face",
-      vibeDesc: "Putting on a polite 'social mask' smile while their real feelings briefly flash through.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> A polite smile only moves the mouth, while a real happy smile crinkles the eyes—and true friends can always spot a 'help me' expression in a split second!" }
+      scenarioTitle: "5. The 'Disappears for 5 Days' Ghost",
+      scenarioText: "When school gets busy, this friend mutes all group chats and eats alone. They think they will bother other with his stress, they only show up until they get super sick with a bad cold right after exams.",
+      vibeTitle: "The Lone-Wolf Isolator",
+      vibeDesc: "Hides all their stress alone in silence, which secretly hurts their body.",
+      psychTakeaway: "✨ <strong>Why We Do This:</strong> <strong>Social isolation</strong> hurts our physical health! Having no one to share feelings with raises the stress hormone <strong>norepinephrine</strong>, shuts down <strong>cortisol-sensitive genes</strong> (causing <strong>inflammation</strong>), and weakens <strong>immune functioning</strong>." }
   ];
 
 
@@ -773,4 +767,3 @@
 </script>
 </body>
 </html>
-
