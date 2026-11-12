@@ -554,7 +554,7 @@
 
   function initMatchingGame(){
     selectedScenarioId=null; matchedCount=0;
-    document.getElementById("match-progress").textContent="Matched Pairs: 0 / 6";
+    document.getElementById("match-progress").textContent="Matched Pairs: 0 / 5";
     const insightBox=document.getElementById("insight-box");
     insightBox.className="insight-toast"; insightBox.innerHTML="";
 
@@ -627,9 +627,9 @@
       burstHearts(r.left+r.width/2,r.top+r.height/2);
 
 
-      if(matchedCount===6){
+      if(matchedCount===5){
         launchConfetti();
-        insightBox.innerHTML=`🎉 <strong>All 6 Uni Friend Types Spotted!</strong> Every group chat has at least three of these!<br><br>${pairObj.psychTakeaway}`;
+        insightBox.innerHTML=`🎉 <strong>All 5 Uni Friend Types Spotted!</strong> Every group chat has at least three of these!<br><br>${pairObj.psychTakeaway}`;
       }else{
         insightBox.innerHTML=`✅ <strong>Spot On!</strong> ${pairObj.psychTakeaway}`;
       }
