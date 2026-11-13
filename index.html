@@ -1,769 +1,1507 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Uni Friend Vibe Check | Friendship Psychology Mini-Game</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#2b2140;
-    --ink-soft:#5d5470;
-    --violet:#7c5cff;
-    --violet-deep:#5b3df5;
-    --pink:#ff5e8a;
-    --pink-soft:#ffd3e0;
-    --peach:#ffb38a;
-    --teal:#2dd4bf;
-    --gold:#ffc94d;
-    --card:#ffffff;
-    --glass:rgba(255,255,255,.72);
-    --line:rgba(124,92,255,.16);
-    --shadow-lg:0 24px 60px -18px rgba(91,61,245,.35);
-    --shadow-sm:0 8px 24px -10px rgba(91,61,245,.25);
-    --radius:22px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:"Nunito",-apple-system,"Segoe UI",Roboto,sans-serif;
-    color:var(--ink);
-    min-height:100vh;
-    padding:28px 16px 80px;
-    background:
-      radial-gradient(1100px 600px at 12% -8%, rgba(255,94,138,.30), transparent 60%),
-      radial-gradient(900px 600px at 105% 8%, rgba(124,92,255,.32), transparent 55%),
-      radial-gradient(800px 700px at 50% 115%, rgba(45,212,191,.22), transparent 60%),
-      linear-gradient(160deg,#fff7fb 0%,#f4f0ff 45%,#eefcfb 100%);
-    background-attachment:fixed;
-    overflow-x:hidden;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Friendship Vibe Check | Positive Psychology & Biopsychosocial Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f7f6f2;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1efe9;
+      --primary: #2c4a52;       /* Deep clinical slate-teal */
+      --primary-hover: #1f363d;
+      --primary-soft: #e6eff1;
+      --accent-plum: #5b4b6b;   /* Subtle academic plum */
+      --accent-plum-soft: #f3eff7;
+      --accent-sage: #2e6f5e;   /* Calming psychological sage */
+      --accent-sage-soft: #eaf4f0;
+      --accent-amber: #9a5b13;
+      --accent-amber-soft: #fdf6ec;
+      --text-main: #1c242b;
+      --text-muted: #55626d;
+      --text-light: #76838f;
+      --border: #e2dfd7;
+      --border-strong: #cfc9be;
+      --shadow-sm: 0 2px 8px rgba(28, 36, 43, 0.04);
+      --shadow-md: 0 10px 28px rgba(28, 36, 43, 0.08);
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --spring: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  /* ---------- floating ambience ---------- */
-  .ambience{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-  .ambience span{
-    position:absolute;bottom:-8vh;font-size:1.5rem;opacity:.35;
-    animation:floatUp linear infinite;filter:saturate(.9);
-  }
-  @keyframes floatUp{
-    0%{transform:translateY(0) rotate(0deg)}
-    100%{transform:translateY(-118vh) rotate(28deg)}
-  }
-  .container{max-width:1040px;margin:0 auto;position:relative;z-index:1}
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      background-image:
+        radial-gradient(at 100% 0%, rgba(44, 74, 82, 0.05) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(91, 75, 107, 0.05) 0px, transparent 50%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
 
-  /* ---------- header ---------- */
-  header{text-align:center;margin:10px 0 30px}
-  .badge{
-    display:inline-flex;align-items:center;gap:8px;
-    background:linear-gradient(120deg,rgba(124,92,255,.14),rgba(255,94,138,.14));
-    border:1px solid rgba(124,92,255,.28);
-    color:var(--violet-deep);font-weight:800;font-size:.74rem;
-    padding:7px 16px;border-radius:999px;margin-bottom:16px;
-    letter-spacing:1.6px;text-transform:uppercase;
-    backdrop-filter:blur(6px);
-  }
-  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--pink);
-    box-shadow:0 0 0 0 rgba(255,94,138,.6);animation:pulse 1.8s infinite}
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(255,94,138,.55)}
-    70%{box-shadow:0 0 0 12px rgba(255,94,138,0)}
-    100%{box-shadow:0 0 0 0 rgba(255,94,138,0)}
-  }
-  h1{
-    font-family:"Fredoka",sans-serif;font-weight:700;
-    font-size:clamp(2rem,5.4vw,3.3rem);letter-spacing:.5px;
-    background:linear-gradient(100deg,#5b3df5 10%,#ff5e8a 55%,#ff9d5c 95%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    margin-bottom:12px;line-height:1.12;
-  }
-  .bond-line{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
-  .bond-line .seg{height:3px;width:70px;border-radius:99px;
-    background:linear-gradient(90deg,transparent,var(--violet));opacity:.55}
-  .bond-line .seg:last-child{background:linear-gradient(90deg,var(--pink),transparent)}
-  .bond-line .heart{font-size:1.1rem;animation:beat 1.6s ease-in-out infinite;display:inline-block}
-  @keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.22)}24%{transform:scale(1)}36%{transform:scale(1.14)}48%{transform:scale(1)}}
-  header p{color:var(--ink-soft);font-size:1.06rem;max-width:640px;margin:0 auto;line-height:1.65;font-weight:600}
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
 
+    /* Editorial Study Header */
+    .hero {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--primary);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      animation: fadeSlideUp 0.5s var(--spring) both;
+    }
 
-  /* ---------- mode tabs ---------- */
-  .mode-tabs{display:flex;justify-content:center;gap:14px;margin-bottom:30px;flex-wrap:wrap}
-  .tab-btn{
-    font-family:"Fredoka",sans-serif;
-    background:var(--glass);backdrop-filter:blur(10px);
-    border:1.5px solid rgba(124,92,255,.25);color:var(--ink);
-    padding:13px 26px;border-radius:999px;font-size:1rem;font-weight:600;
-    cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);
-    box-shadow:var(--shadow-sm);
-  }
-  .tab-btn:hover{transform:translateY(-3px) scale(1.03);border-color:var(--violet)}
-  .tab-btn.active{
-    background:linear-gradient(120deg,var(--violet-deep),var(--pink));
-    color:#fff;border-color:transparent;
-    box-shadow:0 14px 32px -8px rgba(255,94,138,.55);
-    transform:translateY(-2px);
-  }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
 
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
 
-  /* ---------- panels ---------- */
-  .game-panel{
-    display:none;background:var(--glass);backdrop-filter:blur(14px);
-    border-radius:28px;padding:30px;box-shadow:var(--shadow-lg);
-    border:1.5px solid rgba(255,255,255,.85);
-  }
-  .game-panel.active{display:block;animation:panelIn .45s cubic-bezier(.22,1,.36,1)}
-  @keyframes panelIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+    .study-id {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
 
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      letter-spacing: -0.015em;
+      line-height: 1.22;
+    }
 
-  /* ---------- status bar ---------- */
-  .status-bar{
-    display:flex;justify-content:space-between;align-items:center;
-    background:linear-gradient(120deg,rgba(124,92,255,.09),rgba(255,94,138,.09));
-    padding:14px 20px;border-radius:18px;margin-bottom:24px;
-    border:1.5px solid var(--line);flex-wrap:wrap;gap:12px;
-  }
-  .score-pill{
-    font-weight:900;color:var(--violet-deep);font-size:1rem;
-    background:#fff;padding:9px 18px;border-radius:999px;
-    border:1.5px solid rgba(124,92,255,.3);box-shadow:var(--shadow-sm);
-    display:flex;align-items:center;gap:8px;
-  }
-  .reset-btn{
-    background:#fff;border:1.5px solid rgba(124,92,255,.35);color:var(--violet-deep);
-    padding:10px 18px;border-radius:12px;font-weight:800;font-size:.88rem;
-    cursor:pointer;transition:all .2s;font-family:"Nunito",sans-serif;
-  }
-  .reset-btn:hover{background:var(--violet-deep);color:#fff;transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+    .hero p {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin-bottom: 18px;
+    }
 
+    .hero p strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
 
-  /* ---------- MODE 1 ---------- */
-  .instructions{
-    text-align:center;margin-bottom:26px;color:var(--ink-soft);
-    font-size:.98rem;font-weight:600;line-height:1.6;
-    background:rgba(255,255,255,.6);border:1.5px dashed rgba(124,92,255,.35);
-    padding:14px 20px;border-radius:16px;
-  }
-  .matching-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:26px}
-  @media (max-width:820px){.matching-grid{grid-template-columns:1fr}}
-  .column-title{
-    font-family:"Fredoka",sans-serif;font-size:1.02rem;font-weight:600;
-    letter-spacing:.4px;margin-bottom:14px;color:var(--ink);
-    display:flex;align-items:center;gap:10px;
-  }
-  .column-title .bubble{
-    width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-size:1.05rem;
-    background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(255,94,138,.18));
-    border:1.5px solid rgba(124,92,255,.3);
-  }
-  .card-list{display:flex;flex-direction:column;gap:14px}
-  .match-card{
-    background:#fff;border:2px solid rgba(124,92,255,.14);border-radius:18px;
-    padding:18px 18px 18px 20px;cursor:pointer;text-align:left;line-height:1.5;
-    transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s,border-color .22s,background .22s;
-    position:relative;overflow:hidden;font-family:"Nunito",sans-serif;
-  }
-  .match-card::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:5px;
-    background:linear-gradient(180deg,var(--violet),var(--pink));
-    opacity:0;transition:opacity .2s;
-  }
-  .match-card:hover:not(.matched){border-color:rgba(124,92,255,.55);transform:translateY(-3px) rotate(-.35deg);box-shadow:0 14px 30px -12px rgba(91,61,245,.4)}
-  .match-card:hover:not(.matched)::before{opacity:1}
-  .match-card.selected{
-    border-color:var(--violet-deep);
-    background:linear-gradient(120deg,rgba(124,92,255,.1),rgba(255,94,138,.1));
-    box-shadow:0 0 0 4px rgba(124,92,255,.18),0 14px 30px -12px rgba(91,61,245,.45);
-    transform:translateY(-2px) scale(1.012);
-  }
-  .match-card.selected::before{opacity:1}
-  .match-card.matched{
-    border-color:transparent;cursor:default;
-    background:linear-gradient(120deg,rgba(16,185,129,.12),rgba(45,212,191,.12));
-    box-shadow:0 10px 26px -12px rgba(16,185,129,.45);
-  }
-  .match-card.matched::before{background:linear-gradient(180deg,#10b981,#2dd4bf);opacity:1}
-  .match-card.wrong{
-    border-color:var(--pink);background:#fff0f4;
-    animation:shake .4s ease;
-  }
-  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-  .card-tag{
-    display:inline-flex;align-items:center;gap:5px;
-    font-size:.72rem;font-weight:900;padding:3px 10px;border-radius:99px;margin-bottom:8px;
-    background:linear-gradient(120deg,rgba(124,92,255,.14),rgba(255,94,138,.14));
-    color:var(--violet-deep);letter-spacing:.4px;
-  }
-  .match-card.matched .card-tag{background:linear-gradient(120deg,#10b981,#2dd4bf);color:#fff}
-  .card-title{font-weight:900;font-size:1rem;color:var(--ink);margin-bottom:5px}
-  .card-desc{font-size:.9rem;color:var(--ink-soft);font-weight:600}
+    /* Interactive Theory Pills */
+    .theory-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
+    .theory-pill {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--spring);
+      font-family: var(--font-sans);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-  .insight-toast{
-    margin-top:24px;padding:18px 22px;border-radius:18px;
-    background:linear-gradient(120deg,rgba(124,92,255,.1),rgba(255,94,138,.1));
-    border:1.5px solid rgba(124,92,255,.3);
-    color:var(--ink);font-size:.96rem;line-height:1.6;display:none;font-weight:600;
-    position:relative;overflow:hidden;
-  }
-  .insight-toast::before{content:"💡";position:absolute;right:14px;top:10px;font-size:1.4rem;opacity:.5}
-  .insight-toast.show{display:block;animation:toastIn .35s cubic-bezier(.22,1,.36,1)}
-  @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .theory-pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-1px);
+    }
 
+    .theory-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
 
-  /* ---------- MODE 2 ---------- */
-  .player-setup{display:flex;gap:14px;justify-content:center;margin-bottom:26px;flex-wrap:wrap}
-  .player-wrap{display:flex;flex-direction:column;gap:6px;align-items:center}
-  .player-avatar{
-    width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:1.4rem;
-    border:2.5px solid;box-shadow:var(--shadow-sm);
-  }
-  .p1 .player-avatar{border-color:var(--violet);background:linear-gradient(135deg,#e6dfff,#f3edff)}
-  .p2 .player-avatar{border-color:var(--pink);background:linear-gradient(135deg,#ffe1ea,#fff0f5)}
-  .player-input{
-    padding:11px 16px;border:2px solid rgba(124,92,255,.28);border-radius:14px;
-    font-size:.95rem;font-weight:800;width:200px;outline:none;text-align:center;
-    background:#fff;color:var(--ink);font-family:"Nunito",sans-serif;transition:all .2s;
-  }
-  .p1 .player-input:focus{border-color:var(--violet);box-shadow:0 0 0 4px rgba(124,92,255,.18)}
-  .p2 .player-input:focus{border-color:var(--pink);box-shadow:0 0 0 4px rgba(255,94,138,.18)}
+    .theory-drawer {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.3s ease;
+    }
 
+    .theory-drawer.open {
+      max-height: 180px;
+      opacity: 1;
+      margin-top: 14px;
+    }
 
-  .quiz-card{
-    background:#fff;border:1.5px solid rgba(124,92,255,.14);border-radius:20px;
-    padding:24px;margin-bottom:20px;box-shadow:var(--shadow-sm);
-    transition:box-shadow .25s,border-color .25s;
-  }
-  .quiz-card:hover{border-color:rgba(124,92,255,.35)}
-  .q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  .q-number{
-    font-size:.78rem;font-weight:900;color:var(--pink);
-    text-transform:uppercase;letter-spacing:1px;
-    background:linear-gradient(120deg,rgba(255,94,138,.12),rgba(255,179,138,.12));
-    padding:5px 12px;border-radius:99px;
-  }
-  .q-title{font-family:"Fredoka",sans-serif;font-size:1.3rem;font-weight:600;margin-bottom:8px;color:var(--ink)}
-  .q-prompt{font-size:.98rem;color:var(--ink-soft);margin-bottom:18px;font-weight:600;line-height:1.55}
-  .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
-  @media (max-width:680px){.options-grid{grid-template-columns:1fr}}
-  .option-box{
-    background:linear-gradient(160deg,#faf8ff,#fff7fa);
-    border:2px solid rgba(124,92,255,.14);border-radius:16px;padding:16px;
-    transition:border-color .2s;
-  }
-  .option-box:hover{border-color:rgba(124,92,255,.4)}
-  .option-label{
-    font-weight:900;margin-bottom:6px;font-size:.9rem;
-    display:inline-block;padding:3px 12px;border-radius:99px;
-  }
-  .option-box:first-child .option-label{background:rgba(124,92,255,.14);color:var(--violet-deep)}
-  .option-box:last-child .option-label{background:rgba(255,94,138,.14);color:#d63a68}
-  .option-text{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;line-height:1.5;font-weight:600}
-  .Dual-buttons{display:flex;gap:8px;flex-wrap:wrap}
-  .pick-btn{
-    flex:1;padding:9px 10px;border-radius:10px;border:1.5px solid rgba(124,92,255,.3);
-    background:#fff;font-size:.8rem;font-weight:800;cursor:pointer;
-    transition:all .18s cubic-bezier(.34,1.56,.64,1);color:var(--ink-soft);
-    font-family:"Nunito",sans-serif;
-  }
-  .pick-btn:hover{transform:translateY(-2px)}
-  .pick-btn.p1-active{
-    background:linear-gradient(120deg,var(--violet-deep),var(--violet));color:#fff;border-color:transparent;
-    box-shadow:0 8px 18px -6px rgba(91,61,245,.55);transform:translateY(-2px);
-  }
-  .pick-btn.p2-active{
-    background:linear-gradient(120deg,#ff5e8a,#ff8fb0);color:#fff;border-color:transparent;
-    box-shadow:0 8px 18px -6px rgba(255,94,138,.55);transform:translateY(-2px);
-  }
-  .q-result-banner{
-    padding:13px 16px;border-radius:12px;font-size:.9rem;font-weight:700;
-    display:none;line-height:1.55;
-  }
-  .q-result-banner.same{display:block;background:linear-gradient(120deg,rgba(16,185,129,.13),rgba(45,212,191,.13));color:#067a5b;border:1.5px solid rgba(16,185,129,.35)}
-  .q-result-banner.diff{display:block;background:linear-gradient(120deg,rgba(255,179,138,.16),rgba(255,201,77,.16));color:#96550a;border:1.5px solid rgba(245,158,11,.35)}
+    .theory-drawer-inner {
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-plum);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
 
+    /* Live Biopsychosocial Impact Dashboard */
+    .bio-dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+      animation: fadeSlideUp 0.55s var(--spring) 0.06s both;
+    }
 
-  .summary-box{
-    text-align:center;padding:32px 26px;border-radius:24px;margin-top:26px;
-    background:linear-gradient(135deg,#ece5ff 0%,#ffe3ee 50%,#e0faf5 100%);
-    border:1.5px solid rgba(255,255,255,.9);box-shadow:var(--shadow-lg);
-    position:relative;overflow:hidden;
-  }
-  .summary-box::after{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background:radial-gradient(400px 200px at 85% 0%,rgba(255,255,255,.55),transparent 70%);
-  }
-  .summary-box h3{font-family:"Fredoka",sans-serif;font-size:1.35rem;font-weight:600;color:var(--ink);margin-bottom:6px;position:relative;z-index:1}
-  .summary-score{
-    font-family:"Fredoka",sans-serif;font-size:2.6rem;font-weight:700;
-    background:linear-gradient(100deg,var(--violet-deep),var(--pink));
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    margin:8px 0;position:relative;z-index:1;
-  }
-  .summary-text{font-size:1rem;color:var(--ink);max-width:600px;margin:0 auto;line-height:1.6;font-weight:700;position:relative;z-index:1}
+    @media (max-width: 760px) {
+      .bio-dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
 
+    .bio-metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--spring);
+    }
 
-  /* ---------- match burst hearts ---------- */
-  .burst{position:fixed;pointer-events:none;z-index:99;font-size:1.2rem;
-    animation:burstFly .9s cubic-bezier(.22,1,.36,1) forwards}
-  @keyframes burstFly{
-    0%{opacity:1;transform:translate(0,0) scale(.6)}
-    100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.3) rotate(var(--rot))}
-  }
+    .bio-metric-card.pulsing {
+      transform: scale(1.02);
+      border-color: var(--accent-sage);
+      box-shadow: 0 6px 18px rgba(46, 111, 94, 0.12);
+    }
 
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
 
-  /* ---------- confetti ---------- */
-  .confetti{position:fixed;top:-12px;pointer-events:none;z-index:98;border-radius:2px;
-    animation:confettiFall linear forwards}
-  @keyframes confettiFall{to{transform:translateY(112vh) rotate(760deg)}}
+    .metric-val {
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      font-weight: 700;
+    }
 
+    .metric-bar-bg {
+      height: 6px;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+    }
 
-  @media (max-width:560px){
-    .game-panel{padding:20px 16px}
-    .status-bar{justify-content:center}
-  }
-</style>
-<base target="_blank">
+    .metric-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .fill-emotional { background: var(--accent-plum); }
+    .fill-behavioral { background: var(--primary); }
+    .fill-immune { background: var(--accent-sage); }
+
+    /* Sticky Progress & Controls Bar */
+    .status-bar {
+      position: sticky;
+      top: 12px;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .progress-cluster {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1 1 280px;
+    }
+
+    .progress-ring {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      transform: rotate(-90deg);
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: var(--bg-subtle);
+      stroke-width: 4;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke: var(--accent-sage);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 100.53;
+      stroke-dashoffset: 100.53;
+      transition: stroke-dashoffset 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .progress-wrap {
+      flex: 1;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .progress-labels span:last-child {
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 7px;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--accent-sage));
+      border-radius: 999px;
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .controls-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-toggle, .btn-reset {
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--spring);
+      font-family: var(--font-sans);
+    }
+
+    .btn-toggle.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .btn-reset:hover, .btn-toggle:not(.active):hover {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+
+    /* Main Workspace Layout */
+    .game-layout {
+      display: grid;
+      grid-template-columns: 315px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 880px) {
+      .game-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Archetype Draggable Bank */
+    .archetype-dock {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 90px;
+      animation: fadeSlideUp 0.6s var(--spring) 0.1s both;
+    }
+
+    @media (max-width: 880px) {
+      .archetype-dock {
+        position: static;
+      }
+    }
+
+    .dock-title {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .dock-subtitle {
+      font-size: 0.81rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .archetype-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (max-width: 880px) {
+      .archetype-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+    }
+
+    .archetype-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      cursor: grab;
+      user-select: none;
+      transition: var(--spring);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .archetype-chip:hover {
+      transform: translateY(-2px) scale(1.01);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .archetype-chip:active {
+      cursor: grabbing;
+      transform: scale(0.98);
+    }
+
+    .archetype-chip.selected {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(44, 74, 82, 0.15);
+      transform: translateX(4px);
+    }
+
+    .archetype-chip.matched {
+      opacity: 0.42;
+      pointer-events: none;
+      border-style: dashed;
+      background: var(--bg-subtle);
+      box-shadow: none;
+      transform: scale(0.98);
+    }
+
+    .chip-icon {
+      font-size: 1.25rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--bg-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--spring);
+    }
+
+    .archetype-chip.selected .chip-icon {
+      background: #ffffff;
+      transform: scale(1.08);
+    }
+
+    .chip-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .chip-hint {
+      font-size: 0.73rem;
+      color: var(--text-light);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Scenarios Column */
+    .scenarios-area {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .focus-nav {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+    }
+
+    .focus-nav.visible {
+      display: flex;
+    }
+
+    .scenario-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--spring);
+      animation: fadeSlideUp 0.45s var(--spring) both;
+    }
+
+    .scenario-card:hover:not(.solved) {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-md);
+    }
+
+    .scenario-card.hidden-step {
+      display: none;
+    }
+
+    .scenario-card.solved {
+      border-color: #9ec9b9;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fcfa 100%);
+      animation: matchPop 0.45s var(--spring);
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes matchPop {
+      0% { transform: scale(0.99); }
+      50% { transform: scale(1.015); box-shadow: 0 10px 26px rgba(46, 111, 94, 0.14); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes gentleNudge {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .scenario-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .scenario-title {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .layer-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .scenario-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      background: var(--bg-page);
+      border-left: 3px solid var(--border-strong);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 14px 18px;
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      line-height: 1.55;
+    }
+
+    /* Magnetic Dropzone */
+    .dropzone {
+      border: 1.5px dashed var(--border-strong);
+      background: var(--bg-page);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      text-align: center;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: var(--spring);
+      cursor: pointer;
+    }
+
+    .dropzone:hover, .dropzone.drag-over {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary);
+      transform: scale(1.01);
+      box-shadow: inset 0 0 0 1px rgba(44, 74, 82, 0.15);
+    }
+
+    .dropzone.nudge {
+      animation: gentleNudge 0.35s ease;
+      border-color: var(--accent-amber);
+      background: var(--accent-amber-soft);
+      color: var(--accent-amber);
+    }
+
+    /* Two-Part Breakdown Reveal */
+    .breakdown-panel {
+      display: none;
+      margin-top: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      animation: fadeSlideUp 0.35s var(--spring) both;
+    }
+
+    .scenario-card.solved .breakdown-panel {
+      display: block;
+    }
+
+    .scenario-card.solved .dropzone {
+      display: none;
+    }
+
+    .friendly-label-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--accent-sage-soft);
+      border: 1px solid #cce3da;
+      border-radius: var(--radius-md);
+      padding: 13px 16px;
+      margin-bottom: 12px;
+    }
+
+    .friendly-label-icon {
+      font-size: 1.35rem;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .friendly-label-title {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--accent-sage);
+    }
+
+    .friendly-label-desc {
+      font-size: 0.85rem;
+      color: #245749;
+      margin-top: 2px;
+    }
+
+    .psych-takeaway-box {
+      background: var(--accent-plum-soft);
+      border: 1px solid #dfd7ea;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      color: #352b42;
+      margin-bottom: 14px;
+      line-height: 1.55;
+    }
+
+    .psych-takeaway-box strong {
+      color: var(--accent-plum);
+      font-weight: 600;
+    }
+
+    .self-check-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .vibe-vote-btns {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .vibe-vote-btn {
+      border: 1px solid var(--border-strong);
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--spring);
+      font-family: var(--font-sans);
+    }
+
+    .vibe-vote-btn:hover {
+      background: var(--bg-subtle);
+      transform: translateY(-1px);
+    }
+
+    .vibe-vote-btn.chosen {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    /* Floating Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 90;
+      max-width: 360px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: var(--text-main);
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      box-shadow: var(--shadow-md);
+      border-left: 4px solid var(--accent-sage);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: var(--spring);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.warn {
+      border-left-color: #e09f3e;
+    }
+
+    /* Final Study Synthesis Section */
+    .result-section {
+      display: none;
+      margin-top: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent-sage);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      animation: fadeSlideUp 0.55s var(--spring) both;
+    }
+
+    .result-section.visible {
+      display: block;
+    }
+
+    .badge-medallion {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .badge-inner {
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+
+    .result-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-sage);
+      margin-bottom: 8px;
+    }
+
+    .result-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      max-width: 640px;
+      margin: 0 auto 24px;
+      font-size: 0.94rem;
+      color: var(--text-muted);
+    }
+
+    .biopsych-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+      text-align: left;
+      margin: 24px 0 28px;
+    }
+
+    .summary-mini-card {
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .summary-mini-card h4 {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .summary-mini-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 26px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: var(--spring);
+      font-family: var(--font-sans);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 <body>
 
+  <canvas id="confettiCanvas"></canvas>
 
-<div class="ambience" aria-hidden="true"></div>
-
-
-<div class="container">
-  <header>
-    <div class="badge"><span class="dot"></span> Friendship Psychology Mini-Game</div>
-    <h1>University Friendship Vibe Check</h1>
-    <div class="bond-line"><span class="seg"></span><span class="heart">💞</span><span class="seg"></span></div>
-    <p>Explore friendship moments and test your friend telepathy — Five tiny windows into the psychology of how best friends actually bond.</p>
-  </header>
-
-
-  <div class="mode-tabs">
-    <button class="tab-btn active" onclick="switchMode('match')">😂 Mode 1 · Friend Spotter</button>
-    <button class="tab-btn" onclick="switchMode('sync')">👯 Mode 2 · 2-Player Telepathy Test</button>
-  </div>
-
-
-  <!-- MODE 1 -->
-  <section id="panel-match" class="game-panel active">
-    <div class="status-bar">
-      <div class="score-pill">💜 <span id="match-progress">Matched Pairs: 0 / 5</span></div>
-      <button class="reset-btn" onclick="initMatchingGame()">🔄 Shuffle &amp; Restart</button>
-    </div>
-
-
-    <p class="instructions">
-      <strong>How to play:</strong> tap a <em>Funny Uni Friend Behavior</em> on the Column A, then match it to its <em>Secret Psychology Archetype</em> on the Column B. Every correct pair reveals why we actually do it!
-    </p>
-
-
-    <div class="matching-grid">
-      <div>
-        <div class="column-title"><span class="bubble">🤪</span> Column A · Friend Behavior</div>
-        <div class="card-list" id="scenario-list"></div>
+  <div class="container">
+    <!-- Editorial Study Header -->
+    <header class="hero">
+      <div class="hero-meta">
+        <div class="hero-badge">Positive Psychology &amp; Campus Well-Being</div>
+        <span class="study-id">Interactive Case Study • Biopsychosocial Model</span>
       </div>
-      <div>
-        <div class="column-title"><span class="bubble">🧠</span> Column B · Secret Friend Archetype</div>
-        <div class="card-list" id="vibe-list"></div>
-      </div>
-    </div>
-
-
-    <div id="insight-box" class="insight-toast"></div>
-  </section>
-
-
-  <!-- MODE 2 -->
-  <section id="panel-sync" class="game-panel">
-    <div class="status-bar">
-      <div class="score-pill">💞 <span id="sync-progress">Answered Together: 0 / 6</span></div>
-      <button class="reset-btn" onclick="resetSyncQuiz()">🔄 Reset Answers</button>
-    </div>
-
-
-    <div class="player-setup">
-      <div class="player-wrap p1">
-        <div class="player-avatar">🙋‍♀️</div>
-        <input type="text" id="p1-name" class="player-input" value="Friend 1" oninput="updatePlayerNames()" aria-label="Friend 1 Name" />
-      </div>
-      <div class="player-wrap p2">
-        <div class="player-avatar">🙋‍♂️</div>
-        <input type="text" id="p2-name" class="player-input" value="Friend 2" oninput="updatePlayerNames()" aria-label="Friend 2 Name" />
-      </div>
-    </div>
-
-
-    <div id="quiz-container"></div>
-
-
-    <div class="summary-box" id="sync-summary">
-      <h3>🌟 Friendship Compatibility Result</h3>
-      <div class="summary-score" id="final-sync-score">0 / 6 Twin Picks</div>
-      <p class="summary-text" id="final-sync-message">
-        Have both friends pick Option A or Option B on all 6 questions above to unlock your Friendship Psychology Profile!
+      <h1>Friendship Vibe Check: How Bonds Shape Mind &amp; Body</h1>
+      <p>
+        From Aristotle’s three friendship forms (<strong>Utility, Pleasure, and Virtuous</strong>) to the
+        <strong>Biopsychosocial Model</strong>, our everyday campus connections do more than pass notes or share late-night hotpot—they actively calm stress hormones like <strong>norepinephrine</strong> and protect our immune system.
       </p>
-    </div>
-  </section>
-</div>
 
+      <!-- Interactive Theory Pills -->
+      <div class="theory-pills" id="theoryPills">
+        <button type="button" class="theory-pill" data-theory="aristotle">Utility vs. Pleasure vs. Virtuous ▾</button>
+        <button type="button" class="theory-pill" data-theory="emotional">Emotional Safety &amp; Self-Worth ▾</button>
+        <button type="button" class="theory-pill" data-theory="behavioral">Healthy Peer Habits ▾</button>
+        <button type="button" class="theory-pill" data-theory="immune">Lower Inflammation &amp; Immunity ▾</button>
+      </div>
+      <div class="theory-drawer" id="theoryDrawer">
+        <div class="theory-drawer-inner" id="theoryDrawerContent"></div>
+      </div>
+    </header>
 
-<script>
-  /* ================= DATA ================= */
-  const pairsData = [
-    { id: 1,
-      scenarioTitle: "1. The 'Only Texts Before Exam Week' Text",
-      scenarioText: "Your classmate doesn't talk to you for 8 weeks. The night before the exam, they suddenly ask you for Chapter notes, Right after that, they disappear again.",
-      vibeTitle: "The Utility-Only Friend",
-      vibeDesc: "Only shows up when they need help or a favor, not for a real bond.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> A <strong>Utility Friendship</strong> is based only on mutual benefits (being useful to each other). It helps us pass classes, but it lacks the deep <strong>compassionate care</strong> we need for daily well-being!" },
-    { id: 2,
-      scenarioTitle: "2. The 'Here for Hotpot, Gone for Sadness' Pal",
-      scenarioText: "They are always ready to eat late-night desserts or watch funny shows with you. But when you try to talk about real-life stress or feeling sad, they won't even reply",
-      vibeTitle: "The Pleasure-Seeker Buddy",
-      vibeDesc: "Great at having fun together, but runs away from deep feelings.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> A <strong>Pleasure Friendship</strong> is built on shared fun. Laughing together feels good in the moment, but moving up to a <strong>Virtuous Friendship</strong> means caring for each other during hard times too." },
-    { id: 3,
-      scenarioTitle: "3. The 3:00 AM 'Safe Space' Listener",
-      scenarioText: "You send a 8 minute voice message late at night because you are panicking about life. Within 1 minutes, they reply: 'I'm always with you, you are doing great, and we will fix this together tomorrow.",
-      vibeTitle: "The Virtuous Anchor",
-      vibeDesc: "Listens without judging and reminds you of your value when you feel down.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> In the <em>Emotional & Psychological Layer</em>, a <strong>Virtuous Friendship</strong> (based on <strong>compassionate care</strong>) helps lower <strong>anxiety and depression</strong> while boosting your <strong>self-worth</strong>!" },
-    { id: 4,
-      scenarioTitle: "4. The 'Drink Water & Sleep Now' Friend",
-      scenarioText: "You tell your friend you only slept 3 hours and drank 3 cups of coffee today. They take your phone away, hand you a bottle of water, and make you take a 15-minute break'",
-      vibeTitle: "The Wellness Bodyguard",
-      vibeDesc: "Stops you from hurting your own health when you are busy and stressed.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> In the <em>Social & Behavioral Layer</em>, good friends give us <strong>positive peer influences</strong>. They encourage a <strong>healthy lifestyle</strong> and stop us from falling into <strong>self-destructive behaviors</strong>." },
-    { id: 5,
-      scenarioTitle: "5. The 'Disappears for 5 Days' Ghost",
-      scenarioText: "When school gets busy, this friend mutes all group chats and eats alone. They think they will bother other with his stress, they only show up until they get super sick with a bad cold right after exams.",
-      vibeTitle: "The Lone-Wolf Isolator",
-      vibeDesc: "Hides all their stress alone in silence, which secretly hurts their body.",
-      psychTakeaway: "✨ <strong>Why We Do This:</strong> <strong>Social isolation</strong> hurts our physical health! Having no one to share feelings with raises the stress hormone <strong>norepinephrine</strong>, shuts down <strong>cortisol-sensitive genes</strong> (causing <strong>inflammation</strong>), and weakens <strong>immune functioning</strong>." }
-  ];
+    <!-- Live Biopsychosocial Impact Dashboard -->
+    <section class="bio-dashboard" aria-label="Live Biopsychosocial Impact">
+      <div class="bio-metric-card" id="cardEmotional">
+        <div class="metric-top">
+          <span>Emotional Safety Buffer</span>
+          <span class="metric-val" id="valEmotional">0%</span>
+        </div>
+        <div class="metric-bar-bg">
+          <div class="metric-bar-fill fill-emotional" id="barEmotional"></div>
+        </div>
+      </div>
+      <div class="bio-metric-card" id="cardBehavioral">
+        <div class="metric-top">
+          <span>Healthy Peer Habits</span>
+          <span class="metric-val" id="valBehavioral">0%</span>
+        </div>
+        <div class="metric-bar-bg">
+          <div class="metric-bar-fill fill-behavioral" id="barBehavioral"></div>
+        </div>
+      </div>
+      <div class="bio-metric-card" id="cardImmune">
+        <div class="metric-top">
+          <span>Immune &amp; Stress Resilience</span>
+          <span class="metric-val" id="valImmune">0%</span>
+        </div>
+        <div class="metric-bar-bg">
+          <div class="metric-bar-fill fill-immune" id="barImmune"></div>
+        </div>
+      </div>
+    </section>
 
-
-  const syncQuestions = [
-    { id: 1, tag: "Question 1 · Decision Style", title: "The Post-Class Meal Test",
-      prompt: "We are starving after a 3-hour class. How do we pick a place to eat?",
-      optionA: "Walk into the first café that looks 'good enough' so we can eat right now.",
-      optionB: "Spend 25 minutes scrolling food reviews to make sure we pick the absolute best spot.",
-      sameMsg: "Both of you share the same decision speed—zero hangry arguments about where to eat!",
-      diffMsg: "One of you is the 'Quick Picker' and one is the 'Food Researcher'—let the researcher shortlist 2 places and the quick picker choose!" },
-    { id: 2, tag: "Question 2 · Advice & Perspective", title: "The Drama Hotline",
-      prompt: "When it comes to life or relationship drama, which role fits you better?",
-      optionA: "The Wise Coach — I always know how to solve my friends' problems, even when my own life is chaotic.",
-      optionB: "The Storyteller — I need to call my friend right away to talk me through my decisions step-by-step.",
-      sameMsg: "You both play the same role in drama talks—you always get where the other person is coming from!",
-      diffMsg: "Perfect balance! One loves giving clear perspective and the other loves bouncing ideas out loud." },
-    { id: 3, tag: "Question 3 · Stress & Coping", title: "The Bad Grade Reaction",
-      prompt: "You just got a disappointing mark on an assignment you worked hard on. What do you want your friend to do?",
-      optionA: "Sit with me and let me vent and complain about it for 30 minutes.",
-      optionB: "Distract me with good food, games, or funny videos and don't bring the grade up.",
-      sameMsg: "You both comfort each other the exact same way when uni gets stressful!",
-      diffMsg: "Good to know! One of you heals by talking it out, while the other heals by taking their mind off it." },
-    { id: 4, tag: "Question 4 · Handling Tension", title: "The Group Project Tension",
-      prompt: "If we ever get into an awkward disagreement during a group project, what is your natural instinct?",
-      optionA: "Go quiet, take some space, and wait until everyone cools down before talking again.",
-      optionB: "Crack a lighthearted joke or offer a snack right away to break the ice and fix the mood.",
-      sameMsg: "You handle awkward tension at the same pace—making it easy to get back on the same page.",
-      diffMsg: "Classic combo! One needs a few minutes of breathing room while the other is ready to break the ice with a peace offering." },
-    { id: 5, tag: "Question 5 · Curiosity & Hangouts", title: "The Free Friday Hangout",
-      prompt: "We finally have a free Friday with zero deadlines! What is the ideal friend hangout?",
-      optionA: "Trying something totally new, spontaneous, or outside our comfort zone.",
-      optionB: "Going to our familiar, cozy favorite spot where we can just chill and talk for hours.",
-      sameMsg: "Your weekend recharge vibes are 100% aligned!",
-      diffMsg: "One brings the adventure and novelty, while the other brings the cozy comfort—take turns picking Friday plans!" },
-    { id: 6, tag: "Question 6 · Little Moments of Attention", title: "The Study Break Reel",
-      prompt: "Your friend sends you a funny video while you are busy studying. What do you do?",
-      optionA: "Stop for 10 seconds to send a quick reaction or reply so they know I saw it.",
-      optionB: "Save it for later and reply with 10 messages in a row at 1:00 AM when I'm finally free.",
-      sameMsg: "Your texting rhythms match up effortlessly!",
-      diffMsg: "Different texting clocks, same appreciation! One replies in quick micro-moments, and the other saves up for a late-night catch-up." }
-  ];
-
-
-  /* ================= AMBIENCE ================= */
-  (function(){
-    const icons = ["💜","💞","🫂","✨","🧠","💬","😂","🤝","🌟","💗"];
-    const layer = document.querySelector(".ambience");
-    for(let i=0;i<14;i++){
-      const s=document.createElement("span");
-      s.textContent=icons[Math.floor(Math.random()*icons.length)];
-      s.style.left=Math.random()*100+"vw";
-      s.style.animationDuration=(14+Math.random()*14)+"s";
-      s.style.animationDelay=(-Math.random()*20)+"s";
-      s.style.fontSize=(0.9+Math.random()*1.1)+"rem";
-      s.style.opacity=(0.15+Math.random()*0.22).toFixed(2);
-      layer.appendChild(s);
-    }
-  })();
-
-
-  /* ================= FX helpers ================= */
-  function burstHearts(x,y){
-    const icons=["💜","💞","✨","💗","🧠"];
-    for(let i=0;i<10;i++){
-      const h=document.createElement("span");
-      h.className="burst";
-      h.textContent=icons[Math.floor(Math.random()*icons.length)];
-      const ang=Math.random()*Math.PI*2, dist=60+Math.random()*90;
-      h.style.setProperty("--dx",Math.cos(ang)*dist+"px");
-      h.style.setProperty("--dy",Math.sin(ang)*dist-40+"px");
-      h.style.setProperty("--rot",(Math.random()*60-30)+"deg");
-      h.style.left=x+"px"; h.style.top=y+"px";
-      document.body.appendChild(h);
-      setTimeout(()=>h.remove(),950);
-    }
-  }
-  function launchConfetti(){
-    const colors=["#7c5cff","#ff5e8a","#2dd4bf","#ffc94d","#ffb38a","#5b3df5"];
-    for(let i=0;i<90;i++){
-      const c=document.createElement("div");
-      c.className="confetti";
-      const size=6+Math.random()*8;
-      c.style.width=size+"px"; c.style.height=size*(0.4+Math.random())+"px";
-      c.style.left=Math.random()*100+"vw";
-      c.style.background=colors[Math.floor(Math.random()*colors.length)];
-      c.style.animationDuration=(2.2+Math.random()*2)+"s";
-      c.style.animationDelay=(Math.random()*0.6)+"s";
-      if(Math.random()>0.5)c.style.borderRadius="50%";
-      document.body.appendChild(c);
-      setTimeout(()=>c.remove(),5200);
-    }
-  }
-
-
-  /* ================= MODE 1 ================= */
-  let selectedScenarioId = null;
-  let matchedCount = 0;
-
-
-  function shuffleArray(arr){
-    const copy=[...arr];
-    for(let i=copy.length-1;i>0;i--){
-      const j=Math.floor(Math.random()*(i+1));
-      [copy[i],copy[j]]=[copy[j],copy[i]];
-    }
-    return copy;
-  }
-
-
-  function initMatchingGame(){
-    selectedScenarioId=null; matchedCount=0;
-    document.getElementById("match-progress").textContent="Matched Pairs: 0 / 5";
-    const insightBox=document.getElementById("insight-box");
-    insightBox.className="insight-toast"; insightBox.innerHTML="";
-
-
-    const scenarioList=document.getElementById("scenario-list");
-    const vibeList=document.getElementById("vibe-list");
-    scenarioList.innerHTML=""; vibeList.innerHTML="";
-
-
-    pairsData.forEach(item=>{
-      const sCard=document.createElement("button");
-      sCard.className="match-card"; sCard.dataset.id=item.id;
-      sCard.innerHTML=`
-        <span class="card-tag">💬 Funny Moment #${item.id}</span>
-        <div class="card-title">${item.scenarioTitle}</div>
-        <div class="card-desc">${item.scenarioText}</div>`;
-      sCard.onclick=()=>selectScenario(item.id,sCard);
-      scenarioList.appendChild(sCard);
-    });
-
-
-    shuffleArray(pairsData).forEach((item,idx)=>{
-      const vCard=document.createElement("button");
-      vCard.className="match-card"; vCard.dataset.id=item.id;
-      const letter=String.fromCharCode(65+idx);
-      vCard.innerHTML=`
-        <span class="card-tag">🧠 Archetype ${letter}</span>
-        <div class="card-title">${item.vibeTitle}</div>
-        <div class="card-desc">${item.vibeDesc}</div>`;
-      vCard.onclick=()=>selectVibe(item.id,vCard);
-      vibeList.appendChild(vCard);
-    });
-  }
-
-
-  function selectScenario(id,cardEl){
-    if(cardEl.classList.contains("matched"))return;
-    document.querySelectorAll("#scenario-list .match-card").forEach(el=>el.classList.remove("selected"));
-    selectedScenarioId=id;
-    cardEl.classList.add("selected");
-  }
-
-
-  function selectVibe(vibeId,vibeEl){
-    if(vibeEl.classList.contains("matched"))return;
-    const insightBox=document.getElementById("insight-box");
-
-
-    if(!selectedScenarioId){
-      insightBox.textContent="👆 Tip: Click a Funny Uni Friend Behavior card in Column A first!";
-      insightBox.className="insight-toast show";
-      return;
-    }
-
-
-    const scenarioEl=document.querySelector(`#scenario-list .match-card[data-id="${selectedScenarioId}"]`);
-
-
-    if(selectedScenarioId===vibeId){
-      scenarioEl.classList.remove("selected");
-      scenarioEl.classList.add("matched");
-      vibeEl.classList.add("matched");
-      matchedCount++;
-      selectedScenarioId=null;
-
-
-      document.getElementById("match-progress").textContent=`Matched Pairs: ${matchedCount} / 5`;
-      const pairObj=pairsData.find(p=>p.id===vibeId);
-      const r=vibeEl.getBoundingClientRect();
-      burstHearts(r.left+r.width/2,r.top+r.height/2);
-
-
-      if(matchedCount===5){
-        launchConfetti();
-        insightBox.innerHTML=`🎉 <strong>All 5 Uni Friend Types Spotted!</strong> Every group chat has at least three of these!<br><br>${pairObj.psychTakeaway}`;
-      }else{
-        insightBox.innerHTML=`✅ <strong>Spot On!</strong> ${pairObj.psychTakeaway}`;
-      }
-      insightBox.className="insight-toast show";
-    }else{
-      vibeEl.classList.add("wrong");
-      setTimeout(()=>vibeEl.classList.remove("wrong"),420);
-      insightBox.textContent="🤔 Not quite that friend type! Try pairing that behavior with a different archetype.";
-      insightBox.className="insight-toast show";
-    }
-  }
-
-
-  /* ================= MODE 2 ================= */
-  const syncState={};
-
-
-  function initSyncQuiz(){
-    const container=document.getElementById("quiz-container");
-    container.innerHTML="";
-    syncQuestions.forEach(q=>{
-      syncState[q.id]={p1:null,p2:null};
-      const card=document.createElement("div");
-      card.className="quiz-card";
-      card.innerHTML=`
-        <div class="q-header"><span class="q-number">${q.tag}</span></div>
-        <div class="q-title">${q.title}</div>
-        <div class="q-prompt">${q.prompt}</div>
-        <div class="options-grid">
-          <div class="option-box">
-            <div class="option-label">Option A</div>
-            <div class="option-text">${q.optionA}</div>
-            <div class="Dual-buttons">
-              <button class="pick-btn p1-btn" id="q${q.id}-p1-A" onclick="pickSyncOption(${q.id},'p1','A')">Friend 1 Picks A</button>
-              <button class="pick-btn p2-btn" id="q${q.id}-p2-A" onclick="pickSyncOption(${q.id},'p2','A')">Friend 2 Picks A</button>
-            </div>
+    <!-- Sticky Progress & Mode Controls -->
+    <section class="status-bar" aria-label="Game Progress">
+      <div class="progress-cluster">
+        <svg class="progress-ring" viewBox="0 0 36 36">
+          <circle class="ring-bg" cx="18" cy="18" r="16"></circle>
+          <circle class="ring-fill" id="progressRing" cx="18" cy="18" r="16"></circle>
+        </svg>
+        <div class="progress-wrap">
+          <div class="progress-labels">
+            <span id="progressText">Study Progress: 0 / 5 Scenarios Matched</span>
+            <span id="progressPercent">0%</span>
           </div>
-          <div class="option-box">
-            <div class="option-label">Option B</div>
-            <div class="option-text">${q.optionB}</div>
-            <div class="Dual-buttons">
-              <button class="pick-btn p1-btn" id="q${q.id}-p1-B" onclick="pickSyncOption(${q.id},'p1','B')">Friend 1 Picks B</button>
-              <button class="pick-btn p2-btn" id="q${q.id}-p2-B" onclick="pickSyncOption(${q.id},'p2','B')">Friend 2 Picks B</button>
-            </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
           </div>
         </div>
-        <div class="q-result-banner" id="q${q.id}-banner"></div>`;
-      container.appendChild(card);
+      </div>
+      <div class="controls-group">
+        <button class="btn-toggle active" id="btnBoardMode" type="button">All 5 Cases</button>
+        <button class="btn-toggle" id="btnFocusMode" type="button">Step-by-Step</button>
+        <button class="btn-reset" id="btnReset" type="button">↺ Shuffle &amp; Restart</button>
+      </div>
+    </section>
+
+    <!-- Main Interactive Matching Interface -->
+    <main class="game-layout">
+      <!-- Draggable Friendship Archetypes -->
+      <aside class="archetype-dock">
+        <div class="dock-title">Friendship Archetypes</div>
+        <p class="dock-subtitle">Drag a card onto a case—or tap to select, then tap a drop box:</p>
+        <div class="archetype-list" id="archetypeList"></div>
+      </aside>
+
+      <!-- 5 Peer Scenarios -->
+      <section class="scenarios-area">
+        <div class="focus-nav" id="focusNav">
+          <button class="btn-toggle" id="prevStepBtn" type="button">← Previous</button>
+          <strong id="focusCounter" style="font-size: 0.85rem; color: var(--primary);">Case 1 of 5</strong>
+          <button class="btn-toggle" id="nextStepBtn" type="button">Next →</button>
+        </div>
+        <div id="scenariosContainer" style="display: flex; flex-direction: column; gap: 16px;"></div>
+      </section>
+    </main>
+
+    <!-- Culminating Study Synthesis -->
+    <section class="result-section" id="resultSection" aria-live="polite">
+      <div class="badge-medallion">
+        <div class="badge-inner" id="badgeEmoji">🌟</div>
+      </div>
+      <div class="result-eyebrow">Study Complete • Your Campus Friendship Dynamic</div>
+      <h2 class="result-title" id="badgeTitle">The Compassionate Connector</h2>
+      <p class="result-desc" id="badgeDescription"></p>
+
+      <div class="biopsych-summary">
+        <div class="summary-mini-card">
+          <h4>Aristotle’s Takeaway</h4>
+          <p><strong>Utility</strong> (exam notes) and <strong>Pleasure</strong> (late-night hotpot) bring convenience and joy, while <strong>Virtuous</strong> bonds sustain us through hard nights.</p>
+        </div>
+        <div class="summary-mini-card">
+          <h4>Behavioral &amp; Emotional Buffer</h4>
+          <p>Supportive peers reinforce sleep, hydration, and self-worth—lowering anxiety before stress spirals into burnout.</p>
+        </div>
+        <div class="summary-mini-card">
+          <h4>Biological Protection</h4>
+          <p>Sharing burdens downregulates <strong>norepinephrine</strong>, protects <strong>cortisol-sensitive genes</strong> from chronic inflammation, and strengthens immunity.</p>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnPlayAgain" type="button">Restart &amp; Explore Another Vibe</button>
+    </section>
+  </div>
+
+  <!-- Floating Toast Feedback -->
+  <div class="toast-container">
+    <div class="toast" id="toastEl"></div>
+  </div>
+
+  <script>
+    const questions = [
+      { id: 1,
+        scenarioTitle: "1. The 'Only Texts Before Exam Week' Text",
+        scenarioText: "Your classmate doesn't talk to you for 8 weeks. The night before the exam, they suddenly ask you for Chapter notes, Right after that, they disappear again.",
+        vibeTitle: "The Utility-Only Friend",
+        vibeDesc: "Only shows up when they need help or a favor, not for a real bond.",
+        psychTakeaway: "<strong>Why We Do This:</strong> A <strong>Utility Friendship</strong> is based only on mutual benefits (being useful to each other). It helps us pass classes, but it lacks the deep <strong>compassionate care</strong> we need for daily well-being!" },
+      { id: 2,
+        scenarioTitle: "2. The 'Here for Hotpot, Gone for Sadness' Pal",
+        scenarioText: "They are always ready to eat late-night desserts or watch funny shows with you. But when you try to talk about real-life stress or feeling sad, they won't even reply",
+        vibeTitle: "The Pleasure-Seeker Buddy",
+        vibeDesc: "Great at having fun together, but runs away from deep feelings.",
+        psychTakeaway: "<strong>Why We Do This:</strong> A <strong>Pleasure Friendship</strong> is built on shared fun. Laughing together feels good in the moment, but moving up to a <strong>Virtuous Friendship</strong> means caring for each other during hard times too." },
+      { id: 3,
+        scenarioTitle: "3. The 3:00 AM 'Safe Space' Listener",
+        scenarioText: "You send a 8 minute voice message late at night because you are panicking about life. Within 1 minutes, they reply: 'I'm always with you, you are doing great, and we will fix this together tomorrow.",
+        vibeTitle: "The Virtuous Anchor",
+        vibeDesc: "Listens without judging and reminds you of your value when you feel down.",
+        psychTakeaway: "<strong>Why We Do This:</strong> In the <em>Emotional & Psychological Layer</em>, a <strong>Virtuous Friendship</strong> (based on <strong>compassionate care</strong>) helps lower <strong>anxiety and depression</strong> while boosting your <strong>self-worth</strong>!" },
+      { id: 4,
+        scenarioTitle: "4. The 'Drink Water & Sleep Now' Friend",
+        scenarioText: "You tell your friend you only slept 3 hours and drank 3 cups of coffee today. They take your phone away, hand you a bottle of water, and make you take a 15-minute break'",
+        vibeTitle: "The Wellness Bodyguard",
+        vibeDesc: "Stops you from hurting your own health when you are busy and stressed.",
+        psychTakeaway: "<strong>Why We Do This:</strong> In the <em>Social & Behavioral Layer</em>, good friends give us <strong>positive peer influences</strong>. They encourage a <strong>healthy lifestyle</strong> and stop us from falling into <strong>self-destructive behaviors</strong>." },
+      { id: 5,
+        scenarioTitle: "5. The 'Disappears for 5 Days' Ghost",
+        scenarioText: "When school gets busy, this friend mutes all group chats and eats alone. They think they will bother other with his stress, they only show up until they get super sick with a bad cold right after exams.",
+        vibeTitle: "The Lone-Wolf Isolator",
+        vibeDesc: "Hides all their stress alone in silence, which secretly hurts their body.",
+        psychTakeaway: "<strong>Why We Do This:</strong> <strong>Social isolation</strong> hurts our physical health! Having no one to share feelings with raises the stress hormone <strong>norepinephrine</strong>, shuts down <strong>cortisol-sensitive genes</strong> (causing <strong>inflammation</strong>), and weakens <strong>immune functioning</strong>." }
+    ];
+
+    const theoryNotes = {
+      aristotle: "<strong>Aristotle’s 3 Forms:</strong> <em>Utility</em> friendships trade practical favors; <em>Pleasure</em> friendships share fun; <em>Virtuous</em> friendships are rooted in mutual care and character—offering the deepest protection for well-being.",
+      emotional: "<strong>Emotional &amp; Psychological Layer:</strong> Safe, non-judgmental listeners buffer daily anxiety, reduce depressive symptoms, and reinforce genuine self-worth during high-pressure semesters.",
+      behavioral: "<strong>Social &amp; Behavioral Layer:</strong> Positive peer norms encourage sleep, hydration, and healthy study breaks while interrupting self-destructive stress habits.",
+      immune: "<strong>Physiological Layer:</strong> Chronic loneliness elevates <em>norepinephrine</em> and suppresses cortisol-sensitive anti-inflammatory genes, leaving students more vulnerable to post-exam illness."
+    };
+
+    const metaById = {
+      1: {
+        icon: "📒",
+        layerTag: "Aristotle: Utility Form",
+        gentleHint: "Look for the scenario centered around transactional study favors right before exams.",
+        badgeName: "The Mindful Boundary Builder",
+        badgeEmoji: "🧭",
+        badgeSummary: "You quickly spot transactional 'exam-week' dynamics! Recognizing Utility Friendships without guilt helps you share kindness on campus while saving your deepest emotional energy for reciprocal bonds.",
+        impact: { emotional: 15, behavioral: 15, immune: 10 }
+      },
+      2: {
+        icon: "🍲",
+        layerTag: "Aristotle: Pleasure Form",
+        gentleHint: "Think about which friend loves fun hangouts and desserts, yet avoids heavier emotions.",
+        badgeName: "The Joy-to-Depth Bridge Builder",
+        badgeEmoji: "🍲",
+        badgeSummary: "Shared laughs and late-night hotpot are wonderful stress-relievers! You're ready to gently invite trusted fun buddies into deeper, Virtuous conversations when life gets real.",
+        impact: { emotional: 20, behavioral: 15, immune: 15 }
+      },
+      3: {
+        icon: "🌙",
+        layerTag: "Aristotle: Virtuous • Emotional Layer",
+        gentleHint: "Check which friend offers unconditional emotional safety during a 3:00 AM panic.",
+        badgeName: "The Virtuous Safe-Space Anchor",
+        badgeEmoji: "💜",
+        badgeSummary: "Emotional safety is your superpower! By showing up with compassionate, non-judgmental care, you actively buffer anxiety and nurture genuine self-worth in your circle.",
+        impact: { emotional: 35, behavioral: 15, immune: 25 }
+      },
+      4: {
+        icon: "💧",
+        layerTag: "Biopsychosocial: Behavioral Layer",
+        gentleHint: "Look for the friend stepping in to protect sleep and hydration over too much caffeine.",
+        badgeName: "The Campus Wellness Bodyguard",
+        badgeEmoji: "🌿",
+        badgeSummary: "You value practical, health-protective care! Stepping in with water, rest breaks, and positive peer habits keeps busy semesters from turning into burnout.",
+        impact: { emotional: 15, behavioral: 40, immune: 20 }
+      },
+      5: {
+        icon: "🐺",
+        layerTag: "Biopsychosocial: Physiological Layer",
+        gentleHint: "Find the student who isolates under exam pressure and catches a post-exam cold.",
+        badgeName: "The Gentle Connection Rebuilder",
+        badgeEmoji: "🫂",
+        badgeSummary: "Many students pull away when overwhelmed so they won't 'burden' others—yet isolation spikes norepinephrine and inflammation. Even one small check-in text helps protect both mind and immunity!",
+        impact: { emotional: 15, behavioral: 15, immune: 30 }
+      }
+    };
+
+    let solvedIds = new Set();
+    let selectedArchetypeId = null;
+    let isFocusMode = false;
+    let currentFocusIndex = 0;
+    let resonanceVotes = {};
+    let activeTheory = null;
+    let toastTimer = null;
+
+    const archetypeListEl = document.getElementById("archetypeList");
+    const scenariosContainerEl = document.getElementById("scenariosContainer");
+    const progressFillEl = document.getElementById("progressFill");
+    const progressRingEl = document.getElementById("progressRing");
+    const progressTextEl = document.getElementById("progressText");
+    const progressPercentEl = document.getElementById("progressPercent");
+    const resultSectionEl = document.getElementById("resultSection");
+    const focusNavEl = document.getElementById("focusNav");
+    const focusCounterEl = document.getElementById("focusCounter");
+    const toastEl = document.getElementById("toastEl");
+
+    // Interactive Theory Drawer
+    document.querySelectorAll(".theory-pill").forEach((pill) => {
+      pill.addEventListener("click", () => {
+        const key = pill.dataset.theory;
+        const drawer = document.getElementById("theoryDrawer");
+        const content = document.getElementById("theoryDrawerContent");
+
+        if (activeTheory === key) {
+          activeTheory = null;
+          pill.classList.remove("active");
+          drawer.classList.remove("open");
+          return;
+        }
+
+        document.querySelectorAll(".theory-pill").forEach((p) => p.classList.remove("active"));
+        pill.classList.add("active");
+        activeTheory = key;
+        content.innerHTML = theoryNotes[key];
+        drawer.classList.add("open");
+      });
     });
-    updatePlayerNames();
-    updateSyncSummary();
-  }
 
+    function showToast(html, isWarn = false) {
+      clearTimeout(toastTimer);
+      toastEl.innerHTML = html;
+      toastEl.classList.toggle("warn", isWarn);
+      toastEl.classList.add("show");
+      toastTimer = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 3200);
+    }
 
-  function updatePlayerNames(){
-    const p1=document.getElementById("p1-name").value.trim()||"Friend 1";
-    const p2=document.getElementById("p2-name").value.trim()||"Friend 2";
-    syncQuestions.forEach(q=>{
-      document.getElementById(`q${q.id}-p1-A`).textContent=`${p1}: Pick A`;
-      document.getElementById(`q${q.id}-p1-B`).textContent=`${p1}: Pick B`;
-      document.getElementById(`q${q.id}-p2-A`).textContent=`${p2}: Pick A`;
-      document.getElementById(`q${q.id}-p2-B`).textContent=`${p2}: Pick B`;
-    });
-  }
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
 
+    function updateBioDashboard() {
+      let emo = 0, beh = 0, imm = 0;
+      solvedIds.forEach((id) => {
+        const imp = metaById[id].impact;
+        emo += imp.emotional;
+        beh += imp.behavioral;
+        imm += imp.immune;
+      });
 
-  let lastCompleted=-1;
-  function pickSyncOption(qId,player,choice){
-    syncState[qId][player]=choice;
-    const btnA=document.getElementById(`q${qId}-${player}-A`);
-    const btnB=document.getElementById(`q${qId}-${player}-B`);
-    const activeClass=player==="p1"?"p1-active":"p2-active";
-    btnA.classList.toggle(activeClass,choice==="A");
-    btnB.classList.toggle(activeClass,choice==="B");
+      const setMetric = (barId, valId, cardId, value) => {
+        const clamped = Math.min(100, value);
+        document.getElementById(barId).style.width = `${clamped}%`;
+        document.getElementById(valId).textContent = `${clamped}%`;
+        const card = document.getElementById(cardId);
+        if (clamped > 0) {
+          card.classList.add("pulsing");
+          setTimeout(() => card.classList.remove("pulsing"), 450);
+        }
+      };
 
+      setMetric("barEmotional", "valEmotional", "cardEmotional", emo);
+      setMetric("barBehavioral", "valBehavioral", "cardBehavioral", beh);
+      setMetric("barImmune", "valImmune", "cardImmune", imm);
+    }
 
-    const state=syncState[qId];
-    const banner=document.getElementById(`q${qId}-banner`);
-    const qObj=syncQuestions.find(item=>item.id===qId);
+    function renderArchetypes() {
+      archetypeListEl.innerHTML = "";
+      const shuffled = shuffleArray(questions);
+      shuffled.forEach((item, i) => {
+        const meta = metaById[item.id];
+        const chip = document.createElement("div");
+        chip.className = "archetype-chip";
+        chip.style.animationDelay = `${i * 0.05}s`;
+        chip.dataset.id = item.id;
+        chip.draggable = true;
+        chip.setAttribute("role", "button");
+        chip.setAttribute("tabindex", "0");
+        chip.innerHTML = `
+          <div class="chip-icon">${meta.icon}</div>
+          <div>
+            <div class="chip-label">${item.vibeTitle}</div>
+            <span class="chip-hint">Drag or tap to match</span>
+          </div>
+        `;
 
+        chip.addEventListener("dragstart", (e) => {
+          selectedArchetypeId = item.id;
+          e.dataTransfer.setData("text/plain", String(item.id));
+          highlightSelectedChip();
+        });
 
-    if(state.p1&&state.p2){
-      if(state.p1===state.p2){
-        banner.className="q-result-banner same";
-        banner.textContent=`⚡ Twin Vibe (Both picked ${state.p1}): ${qObj.sameMsg}`;
-      }else{
-        banner.className="q-result-banner diff";
-        banner.textContent=`☯️ Complementary Pair (${state.p1} & ${state.p2}): ${qObj.diffMsg}`;
+        chip.addEventListener("click", () => {
+          if (solvedIds.has(item.id)) return;
+          selectedArchetypeId = selectedArchetypeId === item.id ? null : item.id;
+          highlightSelectedChip();
+          if (selectedArchetypeId) {
+            showToast(`Selected <strong>${item.vibeTitle}</strong> — tap a case box to match.`);
+          }
+        });
+
+        chip.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            chip.click();
+          }
+        });
+
+        archetypeListEl.appendChild(chip);
+      });
+    }
+
+    function highlightSelectedChip() {
+      document.querySelectorAll(".archetype-chip").forEach((chip) => {
+        const id = Number(chip.dataset.id);
+        chip.classList.toggle("selected", id === selectedArchetypeId && !solvedIds.has(id));
+        chip.classList.toggle("matched", solvedIds.has(id));
+      });
+    }
+
+    function renderScenarios() {
+      scenariosContainerEl.innerHTML = "";
+      questions.forEach((q, idx) => {
+        const meta = metaById[q.id];
+        const card = document.createElement("article");
+        card.className = "scenario-card";
+        card.style.animationDelay = `${idx * 0.06}s`;
+        card.dataset.id = q.id;
+        card.dataset.index = idx;
+
+        card.innerHTML = `
+          <div class="scenario-header">
+            <h2 class="scenario-title">${q.scenarioTitle}</h2>
+            <span class="layer-tag">${meta.layerTag}</span>
+          </div>
+          <p class="scenario-quote">“${q.scenarioText}”</p>
+
+          <div class="dropzone" data-target-id="${q.id}" tabindex="0" role="button">
+            Drop matching Friendship Archetype here (or tap after selecting one)
+          </div>
+
+          <div class="breakdown-panel">
+            <div class="friendly-label-box">
+              <div class="friendly-label-icon">${meta.icon}</div>
+              <div>
+                <div class="friendly-label-title">${q.vibeTitle}</div>
+                <div class="friendly-label-desc">${q.vibeDesc}</div>
+              </div>
+            </div>
+            <div class="psych-takeaway-box">${q.psychTakeaway}</div>
+            <div class="self-check-row">
+              <span><strong>Self-Reflection:</strong> Does this dynamic feel familiar in your life?</span>
+              <div class="vibe-vote-btns">
+                <button type="button" class="vibe-vote-btn" data-qid="${q.id}" data-vote="me">Relatable to me</button>
+                <button type="button" class="vibe-vote-btn" data-qid="${q.id}" data-vote="circle">In my friend group</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const dropzone = card.querySelector(".dropzone");
+
+        dropzone.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          dropzone.classList.add("drag-over");
+        });
+
+        dropzone.addEventListener("dragleave", () => {
+          dropzone.classList.remove("drag-over");
+        });
+
+        dropzone.addEventListener("drop", (e) => {
+          e.preventDefault();
+          dropzone.classList.remove("drag-over");
+          const draggedId = Number(e.dataTransfer.getData("text/plain") || selectedArchetypeId);
+          attemptMatch(draggedId, q.id, card, dropzone);
+        });
+
+        dropzone.addEventListener("click", () => {
+          if (!selectedArchetypeId) {
+            showToast(`Tap an <strong>Archetype</strong> card on the left first.`, true);
+            return;
+          }
+          attemptMatch(selectedArchetypeId, q.id, card, dropzone);
+        });
+
+        dropzone.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            dropzone.click();
+          }
+        });
+
+        card.querySelectorAll(".vibe-vote-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const qid = Number(btn.dataset.qid);
+            resonanceVotes[qid] = btn.dataset.vote;
+            card.querySelectorAll(".vibe-vote-btn").forEach((b) => b.classList.remove("chosen"));
+            btn.classList.add("chosen");
+            if (solvedIds.size === questions.length) {
+              updateFinalBadge();
+            }
+          });
+        });
+
+        scenariosContainerEl.appendChild(card);
+      });
+
+      syncViewMode();
+    }
+
+    function attemptMatch(chosenArchetypeId, scenarioId, cardEl, dropzoneEl) {
+      if (!chosenArchetypeId || solvedIds.has(scenarioId)) return;
+
+      if (chosenArchetypeId === scenarioId) {
+        solvedIds.add(scenarioId);
+        selectedArchetypeId = null;
+        cardEl.classList.add("solved");
+        highlightSelectedChip();
+        updateProgress();
+        updateBioDashboard();
+
+        const matchedQ = questions.find((item) => item.id === scenarioId);
+        showToast(`✓ Matched <strong>${matchedQ.vibeTitle}</strong>`);
+
+        if (solvedIds.size === questions.length) {
+          updateFinalBadge();
+          resultSectionEl.classList.add("visible");
+          launchConfetti();
+          setTimeout(() => {
+            resultSectionEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }, 320);
+        }
+      } else {
+        dropzoneEl.classList.remove("nudge");
+        void dropzoneEl.offsetWidth;
+        dropzoneEl.classList.add("nudge");
+        const hintMeta = metaById[chosenArchetypeId];
+        showToast(`Hint: <em>${hintMeta.gentleHint}</em>`, true);
       }
     }
-    updateSyncSummary();
-  }
 
+    function updateProgress() {
+      const count = solvedIds.size;
+      const pct = Math.round((count / questions.length) * 100);
+      progressFillEl.style.width = `${pct}%`;
+      progressTextEl.textContent = `Study Progress: ${count} / ${questions.length} Scenarios Matched`;
+      progressPercentEl.textContent = `${pct}%`;
 
-  function updateSyncSummary(){
-    let completed=0,matches=0;
-    Object.values(syncState).forEach(st=>{
-      if(st.p1&&st.p2){completed++;if(st.p1===st.p2)matches++;}
-    });
-    document.getElementById("sync-progress").textContent=`Answered Together: ${completed} / 6`;
-    document.getElementById("final-sync-score").textContent=`${matches} / 6 Twin Picks`;
-
-
-    if(completed===6&&lastCompleted!==6){launchConfetti();}
-    lastCompleted=completed;
-
-
-    const msgEl=document.getElementById("final-sync-message");
-    if(completed<6){
-      msgEl.textContent=`Answer ${6-completed} more question(s) together to unlock your full Friendship Psychology Profile!`;
-    }else if(matches>=5){
-      msgEl.textContent="🧠 Brainwave Twins! You two share almost identical habits for making decisions, handling stress, and recharging. Super easy-going friendship!";
-    }else if(matches>=3){
-      msgEl.textContent="🌟 The Balanced Duo! You share common ground where it counts, while bringing fresh perspectives that help each other grow.";
-    }else{
-      msgEl.textContent="🔥 Opposites Attract! You two have complementary strengths—one brings calm or quick decisions while the other brings adventure or deep reflection!";
+      const circumference = 100.53;
+      progressRingEl.style.strokeDashoffset = circumference - (pct / 100) * circumference;
     }
-  }
 
+    function updateFinalBadge() {
+      let chosenId = 3;
+      for (const [idStr, vote] of Object.entries(resonanceVotes)) {
+        if (vote === "me") {
+          chosenId = Number(idStr);
+          break;
+        }
+      }
+      if (!resonanceVotes[chosenId]) {
+        const firstCircle = Object.entries(resonanceVotes).find(([, v]) => v === "circle");
+        if (firstCircle) chosenId = Number(firstCircle[0]);
+      }
 
-  function resetSyncQuiz(){lastCompleted=-1;initSyncQuiz();}
+      const badgeData = metaById[chosenId];
+      document.getElementById("badgeEmoji").textContent = badgeData.badgeEmoji;
+      document.getElementById("badgeTitle").textContent = badgeData.badgeName;
+      document.getElementById("badgeDescription").textContent = badgeData.badgeSummary;
+    }
 
+    function syncViewMode() {
+      focusNavEl.classList.toggle("visible", isFocusMode);
+      focusCounterEl.textContent = `Case ${currentFocusIndex + 1} of ${questions.length}`;
 
-  function switchMode(mode){
-    document.querySelectorAll(".tab-btn").forEach((btn,idx)=>{
-      btn.classList.toggle("active",(mode==="match"&&idx===0)||(mode==="sync"&&idx===1));
+      document.querySelectorAll(".scenario-card").forEach((card, index) => {
+        if (!isFocusMode) {
+          card.classList.remove("hidden-step");
+        } else {
+          card.classList.toggle("hidden-step", index !== currentFocusIndex);
+        }
+      });
+    }
+
+    // Subtle Palette-Matched Celebration Particles
+    function launchConfetti() {
+      const canvas = document.getElementById("confettiCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ["#2c4a52", "#2e6f5e", "#5b4b6b", "#9a5b13", "#84a98c"];
+      const particles = Array.from({ length: 65 }, () => ({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * 120,
+        r: 4 + Math.random() * 4,
+        dx: (Math.random() - 0.5) * 3,
+        dy: 2.5 + Math.random() * 3.5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.random() * 10
+      }));
+
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p) => {
+          p.x += p.dx;
+          p.y += p.dy;
+          p.tilt += 0.08;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.ellipse(p.x, p.y, p.r, p.r * 0.6, p.tilt, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        frame++;
+        if (frame < 130) {
+          requestAnimationFrame(draw);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      draw();
+    }
+
+    function resetGame() {
+      solvedIds = new Set();
+      selectedArchetypeId = null;
+      resonanceVotes = {};
+      currentFocusIndex = 0;
+      resultSectionEl.classList.remove("visible");
+      updateProgress();
+      updateBioDashboard();
+      renderArchetypes();
+      renderScenarios();
+    }
+
+    document.getElementById("btnBoardMode").addEventListener("click", (e) => {
+      isFocusMode = false;
+      e.currentTarget.classList.add("active");
+      document.getElementById("btnFocusMode").classList.remove("active");
+      syncViewMode();
     });
-    document.getElementById("panel-match").classList.toggle("active",mode==="match");
-    document.getElementById("panel-sync").classList.toggle("active",mode==="sync");
-  }
 
+    document.getElementById("btnFocusMode").addEventListener("click", (e) => {
+      isFocusMode = true;
+      e.currentTarget.classList.add("active");
+      document.getElementById("btnBoardMode").classList.remove("active");
+      syncViewMode();
+    });
 
-  initMatchingGame();
-  initSyncQuiz();
-</script>
+    document.getElementById("prevStepBtn").addEventListener("click", () => {
+      currentFocusIndex = (currentFocusIndex - 1 + questions.length) % questions.length;
+      syncViewMode();
+    });
+
+    document.getElementById("nextStepBtn").addEventListener("click", () => {
+      currentFocusIndex = (currentFocusIndex + 1) % questions.length;
+      syncViewMode();
+    });
+
+    document.getElementById("btnReset").addEventListener("click", resetGame);
+    document.getElementById("btnPlayAgain").addEventListener("click", () => {
+      resetGame();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    resetGame();
+  </script>
 </body>
 </html>
